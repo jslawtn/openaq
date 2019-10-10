@@ -1,21 +1,3 @@
-<template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
-</template>
-
-<script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-  name: 'app',
-  components: {
-    HelloWorld
-  }
-}
-</script>
-
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -26,3 +8,26 @@ export default {
   margin-top: 60px;
 }
 </style>
+
+<template>
+  <div id="app">
+    <div v-for="(city, index) in $store.state.cities.results" :key="index">
+      {{city.name}}
+    </div>
+  </div>
+</template>
+
+<script>
+import { mapActions } from 'vuex';
+
+export default {
+  name: 'app',
+  components: {},
+  created: function(){
+    this.getCities();
+  },
+  methods: {
+    ...mapActions(['getCities'])
+  },
+}
+</script>
