@@ -22,8 +22,11 @@
       <div v-if="openDropDown === true">
         <a 
         v-for="(city, index) in filterCities" :key="index"
-        v-on:click="search = city.name">{{city.name}}</a>
+        v-on:click="getCity(city.name)">{{city.name}}</a>
       </div>
+    </div>
+    <div v-for="(cityInfo, index) in cityResults" :key="index">
+      <CityCard :city="cityInfo"></CityCard>
     </div>
   </div>
 </template>
@@ -31,12 +34,12 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import openqaService from './services/openqa.js';
-import Multiselect from 'vue-multiselect';
+import CityCard from './components/CityCard.vue';
 
 export default {
   name: 'app',
   components: {
-    Multiselect
+    CityCard
   },
   data(){
     return {
@@ -51,8 +54,9 @@ export default {
   methods: {
     ...mapActions(['getCities']),
     getCity(cityName){
+      this.search = cityName;
       openqaService.getCity(cityName).then(resp => {
-        console.log(resp.data);
+        this.cityResults.push(resp.data.results[0]);
       }).catch(() => {
 
       });
@@ -61,9 +65,12 @@ export default {
       this.openDropDown = true;
     },
     blurDropDown(){
-      if(search.length < 0){
+      if(this.search.length < 0){
         this.openDropDown = false;
       }
+    },
+    removeCard(index){
+      this.cityResults.splice(index, 1);
     }
   },
   computed:{
