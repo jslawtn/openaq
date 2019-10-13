@@ -4,6 +4,64 @@ body{
     background: linear-gradient(90deg, #7736ae, #4277ad) fixed; /*-webkit-gradient(linear, right top, right bottom, from(#7736ae), to(#4277ad)) fixed;*/
 }
 
-h1, h2, h3, p{
+.text-white{
     color: white;
+}
+
+.search-container {
+    position: relative;
+    width: fit-content;
+    margin: auto;
+}
+
+.search-container input {
+    padding-left: 1.5rem;
+    border: 2px solid #e3e3e3;
+    border-radius: 0.5rem;
+}
+
+.search-container i {
+    position: absolute;
+    color: #e3e3e3;
+}
+
+.dropdown-container {
+    width: 100%;
+    position: absolute;
+    max-height: 250px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border: 2px solid #e3e3e3;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    background-color: white;
+}
+
+.dropdown-item {
+    position: relative;
+    display: block;
+    float: left;
+}
+
+.dropdown-item:hover {
+    cursor: pointer;
+}
+
+.card-container{
+    padding: 1rem;
+    margin: 1rem;
+    width: fit-content;
+    border: 1px solid #e3e3e3;
+    border-radius: 0.5rem;
+    background-color: white;
+    color: black;
+}
+
+.card-container-title {
+    color: #7736ae;
+    font-weight: bold;
+}
+
+.text-detail{
+    font-weight: bold;
 }
