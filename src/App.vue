@@ -12,13 +12,12 @@
       <p class="text-white">Select cities to compare using the search tool below.</p>
     </div>
     <div>
-      <div class="search-container mb-5"  >
+      <div class="search-container mb-5"  v-clickout="closelist">
         <i class="fa fa-search"></i>
         <input type="text" placeholder="Enter city name..." 
         v-on:focus="focusDropDown"
-        v-on:blur="blurDropDown"
         v-model="search"/>
-        <div v-clickout="closelist" v-if="openDropDown === true" class="dropdown-container">
+        <div  v-if="openDropDown === true" class="dropdown-container">
           <a class="dropdown-item"
           v-for="(city, index) in filterCities" :key="index"
           v-on:click="getCity(city.name)">{{city.name}}</a>
@@ -69,17 +68,11 @@ export default {
     focusDropDown(){
       this.openDropDown = true;
     },
-    blurDropDown(){
-      // this.openDropDown = false;
-      // if(this.search.length < 0){
-      //   this.openDropDown = false;
-      // }
-    },
     removeCard(index){
       this.cityResults.splice(index, 1);
     },
     closelist(){
-      console.log("click out");
+      this.openDropDown = false;
     }
   },
   computed:{
@@ -92,22 +85,17 @@ export default {
   },
   directives:{
     clickout: {
-    bind (event, el) {
-        let self  = this
-        event = function (event) { 
-            console.log('emitting event')
-            self.vm.$emit(self.expression,event) 
+    bind (el, binding, vnode) {
+      el.clickOutsideEvent = function (event) {
+        event.stopPropagation();
+        if (!(el == event.target || el.contains(event.target))) {
+          vnode.context[binding.expression](event);
         }
-        el.addEventListener('click', this.stopProp(event))
-        document.body.addEventListener('click', event)
+      };
+      document.body.addEventListener('click', el.clickOutsideEvent);
     },
-    unbind(event, el) {
-        console.log('unbind')
-        el.removeEventListener('click', this.stopProp(event))
-        document.body.removeEventListener('click', event)
-    },
-    stopProp(event) {
-        event.stopPropagation() 
+    unbind(el) {
+        document.body.removeEventListener('click', el.clickOutsideEvent);
     }
   }}
 }
